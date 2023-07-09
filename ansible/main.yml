@@ -4,6 +4,8 @@ vars:
   app_jar_name: "sendemail.jar"
   nexus_username: "{{ lookup('env', 'NEXUS_USERNAME') }}"
   nexus_password: "{{ lookup('env', 'NEXUS_PASSWORD') }}"
+  git_tag: "{{ lookup('env', 'GIT_TAG') }}"
+  nexus_url: "http://20.237.82.26:8081/repository/maven-eficens/com/eficens/SendEmail/SendEmail/"{{ git_tag }}"/SendEmail-"{{ git_tag }}".jar"
 
 # Execute tasks
 tasks:
@@ -53,7 +55,7 @@ tasks:
 
 - name: Download JAR file from Nexus
   get_url:
-    url: https://nexus.example.com/path/to/your.jar
+    url: "{{ nexus_url }}"
     dest: "{{ app_path }}/{{ app_jar_name }}"
     force: yes
     username: "{{ nexus_username }}"
