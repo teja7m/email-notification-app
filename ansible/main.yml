@@ -31,7 +31,7 @@
         name: openjdk-17-jdk
         state: present
     - name: Find Java 17 executable
-      command: "update-alternatives --query java | grep 'Value: ' | awk '{ print $2 }'"
+      shell: "update-alternatives --query java | grep 'Value: ' | awk '{ print $2 }'"
       register: java_executable
     - name: Set JAVA_HOME
       set_fact:
