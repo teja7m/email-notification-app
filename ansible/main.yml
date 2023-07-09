@@ -45,11 +45,9 @@
           - "Java_Path: {{ java_path }}"
           - "JAVA_HOME: {{ java_home }}"
     - name: Backup existing JAR file with timestamp
-      command: mv "{{ app_path }}/{{ app_jar_name }}" "{{ app_path }}/sendemail-{{
+      command: mv -f "{{ app_path }}/{{ app_jar_name }}" "{{ app_path }}/sendemail-{{
         ansible_date_time.date }}-{{ ansible_date_time.hour }}{{
         ansible_date_time.minute }}{{ ansible_date_time.second }}.jar"
-      args:
-        warn: no
       ignore_errors: yes
     - name: Download JAR file from Nexus
       get_url:
@@ -59,6 +57,12 @@
         username: "{{ nexus_username }}"
         password: "{{ nexus_password }}"
       no_log: true
+    - name: Change file permissions
+      file:
+        path: /path/to/file
+        mode: "0755"
+        owner: "{{ ansible_user }}"
+        group: "{{ ansible_user }}"    
     - name: Create systemd service unit file
       template:
         src: sendemail.service.j2
