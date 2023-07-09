@@ -58,7 +58,7 @@
         force: yes
         username: "{{ nexus_username }}"
         password: "{{ nexus_password }}"
-        sensitive: yes
+      no_log: true
     - name: Create systemd service unit file
       template:
         src: sendemail.service.j2
