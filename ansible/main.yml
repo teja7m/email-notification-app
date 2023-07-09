@@ -59,7 +59,7 @@
       no_log: true
     - name: Change file permissions
       file:
-        path: /path/to/file
+        path: "{{ app_path }}/{{ app_jar_name }}"
         mode: "0755"
         owner: "{{ ansible_user }}"
         group: "{{ ansible_user }}"    
