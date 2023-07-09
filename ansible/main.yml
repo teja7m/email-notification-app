@@ -42,16 +42,15 @@
     - name: Display Java path and JAVA_HOME
       debug:
         msg:
-          - "Java Path: {{ java_path }}"
+          - "Java_Path: {{ java_path }}"
           - "JAVA_HOME: {{ java_home }}"
     - name: Backup existing JAR file with timestamp
       command: mv "{{ app_path }}/{{ app_jar_name }}" "{{ app_path }}/sendemail-{{
         ansible_date_time.date }}-{{ ansible_date_time.hour }}{{
         ansible_date_time.minute }}{{ ansible_date_time.second }}.jar"
       args:
-        creates: "{{ app_path }}/sendemail-{{ ansible_date_time.date }}-{{
-          ansible_date_time.hour }}{{ ansible_date_time.minute }}{{
-          ansible_date_time.second }}.jar"
+        warn: no
+      ignore_errors: yes
     - name: Download JAR file from Nexus
       get_url:
         url: "{{ nexus_url }}"
