@@ -1,10 +1,11 @@
----
+# Define variables
 vars:
   app_path: "/opt/apps/sendemail"
   app_jar_name: "sendemail.jar"
   nexus_username: "{{ lookup('env', 'NEXUS_USERNAME') }}"
   nexus_password: "{{ lookup('env', 'NEXUS_PASSWORD') }}"
 
+# Execute tasks
 tasks:
 - name: Get current user
   debug:
@@ -18,20 +19,26 @@ tasks:
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"
 
-- name: Find Java 17 executable
-  find:
-    paths: /usr/lib/jvm/
-    patterns: "java-17-openjdk*"
-    file_type: file
-  register: java_executable
+- name: Update apt cache
+  apt:
+    update_cache: yes
 
-- name: Set Java path
-  set_fact:
-    java_path: "{{ java_executable.files[0].path }}"
+- name: Install OpenJDK 17
+  apt:
+    name: openjdk-17-jdk
+    state: present
+
+- name: Find Java 17 executable
+  command: "update-alternatives --query java | grep 'Value: ' | awk '{ print $2 }'"
+  register: java_executable
 
 - name: Set JAVA_HOME
   set_fact:
-    java_home: "{{ java_path | dirname | dirname }}"
+    java_home: "{{ java_executable.stdout_lines[0] | dirname | dirname }}"
+
+- name: Set Java path
+  set_fact:
+    java_path: "{{ java_executable.stdout_lines[0] }}"
 
 - name: Display Java path and JAVA_HOME
   debug:
