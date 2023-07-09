@@ -1,0 +1,13 @@
+[Unit]
+Description=Send Email Service
+After=network.target
+
+[Service]
+ExecStart="{{ java_path }}" -jar "{{ app_path }}"/"{{ app_jar_name }}"
+WorkingDirectory="{{ app_path }}"
+Restart=always
+User="{{ ansible_user }}"
+Environment=JAVA_HOME="{{ java_home }}"
+
+[Install]
+WantedBy=multi-user.target

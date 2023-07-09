@@ -36,7 +36,7 @@ http://<Insert_Your_server_Public_IP_here>:8080
 ```
 If you are running it on local machine
 ```sh
-127.0.0.1:8000
+127.0.0.1:8080
 ```
 
 ## Grab Your SMTP Credentials
