@@ -17,3 +17,4 @@ steps:
     jdkVersionOption: '1.11'
     jdkArchitectureOption: 'x64'
     goals: 'package'
+
